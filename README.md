@@ -8,5 +8,5 @@ click custom extensions:
 ### testing
 
 ```bash
-PYTHONPATH=src py.test -vvs test
+PYTHONPATH=src py.test -vvs tests
 ```
