@@ -1,6 +1,4 @@
-import click
-
-# use the inetrnal click only for in-source code
+# use the internal click (only for click.plus in-source code)
 from .api import ExtensionBase, click
 
 
