@@ -4,6 +4,15 @@ import functools
 from .base import ExtensionError, ExtensionNotFound
 from .base import ExtensionBase
 
+try:
+    import click
+    click.command
+except AttributeError:
+    # this is needed only for click.plus when is running
+    # from the git checkout, because click doens't allow
+    # namespace packages (eg. has a real __init__)
+    import click.decorators as click
+
 
 def configure(extensions=None, **arguments):
     extensions = [ ExtensionBase.get(e)(e) for e in (extensions or []) ]
