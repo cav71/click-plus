@@ -20,7 +20,7 @@ class ExtensionBase(abc.ABC):
 
         names = { c.lower(): c for c in classes }
         if name.lower() not in names:
-            raise ExtensionNotFound(f"no class found for {name=}, allowed={', '.join(classes) or 'none'}")
+            raise ExtensionNotFound(f"no class found for name={name}, allowed={', '.join(classes) or 'none'}")
         return classes[names[name]]
 
     def __init__(self, name, dependencies=None):
@@ -28,10 +28,10 @@ class ExtensionBase(abc.ABC):
 
     @abc.abstractmethod
     def setup(self, fn, arguments):
-        print(f"This is the ExtensionBase.setup(fn, {arguments=})")
+        print(f"This is the ExtensionBase.setup(fn, arguments={arguments})")
         return fn
 
     @abc.abstractmethod
     def process(self, kwargs, arguments):
-        print(f"This is the ExtensionBase.process({kwargs=}, {arguments=})")
+        print(f"This is the ExtensionBase.process(kwargs={kwargs}, arguments={arguments})")
 
