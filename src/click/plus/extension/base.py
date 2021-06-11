@@ -1,6 +1,4 @@
 import abc
-
-
 class ExtensionError(Exception):
     pass
 
@@ -30,9 +28,10 @@ class ExtensionBase(abc.ABC):
 
     @abc.abstractmethod
     def setup(self, fn, arguments):
-        pass
+        print(f"This is the ExtensionBase.setup(fn, {arguments=})")
+        return fn
 
     @abc.abstractmethod
     def process(self, kwargs, arguments):
-        pass
+        print(f"This is the ExtensionBase.process({kwargs=}, {arguments=})")
 
