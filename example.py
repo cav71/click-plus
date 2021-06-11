@@ -1,4 +1,4 @@
-# PYTHONPATH=src python example  xx
+# PYTHONPATH=src python example.py --boost 3 2
 
 import click.decorators
 import click.plus.extension
