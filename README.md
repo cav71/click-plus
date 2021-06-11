@@ -1,39 +1,55 @@
 # click-plus
 
 ### Introduction
-This is a click extension package containing few goodies:
+This is a curated collection of click extensions.
 
-  1. **click.plus.extension** -- supports creation of argument groups
+<dl>
+ <dt>click.plus.extension</dt>
+ <dd>supports creation of recyclable pre-configured groups of
+  click arguments/options.
+ </dd>
+</dl>
 
-#### click.plus.extension example
-Creating a simple extension adding an argument to a main:
 
+### click.plus.extension example
+**click.plus.extension** allows to create click actions/options
+groups that can be shared amongst projects.
+
+This is an example of a cli function taking a single int argument,
+multiply by factor and (if provided) multiplied by a boost:
+
+```shell
+$> example.py --boost 3 9
+Got 54 (eg. 9 * 2 * 3)
+```
+This is the code:
 ```python
 import click
 import click.plus.extension
-from   click.plus.extension import api 
 
-
+# This can be placed in any module allowing sharing
+from   click.plus.extension import api
 class MyArguments(api.ExtensionBase):
-    def setup(self, fn, arguments):
-        # adds as many click flags/arguments
+
+    # here you can add as many click arguments/options
+    def setup(self, fn, arguments):        
         fn = click.option("--boost", type=int, default=1)(fn)
         return fn
 
+    # process applies the decorator arguments to the value click argument
+    # then multiply by the boost factor (if provided)
     def process(self, kwargs, arguments):
+        kwargs["value"] *= arguments["factor"]
+
         boost = kwargs.pop("boost")
         kwargs["value"] *= boost
-        kwargs["value"] *= arguments["factor"]
-        return kwargs    
+
 
 @click.command()
 @click.argument("value", type=int)
 @click.plus.extension.configure(["myarguments"], factor=2)
 def main(value):
     print("Got", value)
-    
-
-
 ```
 
 
