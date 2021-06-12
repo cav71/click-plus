@@ -12,7 +12,7 @@ if os.getenv("MYVERSION"):
     version = os.getenv("MYVERSION")
     thehash = os.getenv("MYHASH")
     with open(click.plus.__file__, "w") as fp:
-    fp.write(f"""
+        fp.write(f"""
 __version__ = "{version}"
 __hash__ = "{thehash}"
 """.strip())
