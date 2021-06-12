@@ -1,5 +1,8 @@
 import os
 import sys
+import json
+import collections
+
 
 from setuptools import setup, find_namespace_packages
 
@@ -7,10 +10,12 @@ sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "src
 import click.plus
 
 version = click.plus.__version__
-if os.getenv("MYVERSION"):
-    assert os.getenv("MYHASH")
-    version = os.getenv("MYVERSION")
-    thehash = os.getenv("MYHASH")
+
+if os.getenv("GITHUB_DUMP"):
+    github_data = json.loads(os.getenv("GITHUB_DUMP"))   
+    gdata = collections.namedtuple("G", github_data)(github_data)
+    version = gdata.ref.rpartition("/")[2] + f"b{run_number}"
+    thehash = gdata.sha
     with open(click.plus.__file__, "w") as fp:
         fp.write(f"""
 __version__ = "{version}"

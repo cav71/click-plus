@@ -20,10 +20,10 @@ jobs:
       - name: dump env
         shell: bash
         env:
-          GITHUBDUMP: ${{ toJson(github) }}
+          GITHUB_DUMP: ${{ toJson(github) }}
         run: |
           echo "github env:"
-          echo "$GITHUBDUMP"
+          echo "$GITHUB_DUMP"
 
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v1
@@ -61,8 +61,7 @@ jobs:
       - name: Build packages
         env:
           PYTHONPATH: src
-          MYVERSION: ${{ format('{0}{1}{2}', github.head_ref, 'b', github.run_number) }} 
-          MYHASH: ${{ github.sha }}
+          GITHUB_DUMP: ${{ toJson(github) }}
         run: |
           python -m build
 
@@ -70,6 +69,6 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: wheel-build-${{ matrix.python-version }}
-          path: dist/*
+          path: dist/*.whl
   
 
