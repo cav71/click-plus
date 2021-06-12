@@ -1,6 +1,9 @@
 import os
+import sys
 
 from setuptools import setup, find_namespace_packages
+
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "src"))
 import click.plus
 
 setup(
