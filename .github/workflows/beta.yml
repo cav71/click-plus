@@ -53,6 +53,8 @@ jobs:
       - name: Build packages
         env:
           PYTHONPATH: src
+          MYVERSION: ${{ format('{0}{1}{2}', github.ref, "b", github.run_number) }} 
+          MYHASH: ${{ github.sha }}
         run: |
           python -m build
 
