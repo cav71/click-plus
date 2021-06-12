@@ -1,4 +1,4 @@
-name: Beta releases
+name: Beta builds
 
 on:
   push:
@@ -56,7 +56,7 @@ jobs:
         run: |
           python -m build
 
-      - name: Upload pytest test results
+      - name: Upload packages
         uses: actions/upload-artifact@v2
         with:
           name: wheel-build-${{ matrix.python-version }}
