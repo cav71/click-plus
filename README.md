@@ -5,7 +5,7 @@ This is a curated collection of click extensions.
 
 <dl>
  <dt>click.plus.extension</dt>
- <dd>supports creation of recyclable pre-configured groups of
+ <dd>supports creation of shareable, pre-configured groups of
   click arguments/options.
  </dd>
 </dl>

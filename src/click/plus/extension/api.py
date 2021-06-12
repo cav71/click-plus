@@ -8,9 +8,12 @@ try:
     import click
     click.command
 except AttributeError:
-    # this is needed only for click.plus when is running
-    # from the git checkout, because click doens't allow
-    # namespace packages (eg. has a real __init__)
+    # The reason for this workaround is click package __init__
+    # contains code, so once click.__init__ is imported this 
+    # blocks other namespace packages.
+    # With the current setup.py in the click-plus this is not an issue
+    # but when running out of source code cannot just import 
+    # click and using for example click.command. 
     import click.decorators as click
 
 
