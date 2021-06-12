@@ -17,6 +17,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: dump env
+        shell: bash
+        env:
+          GITHUBDUMP: ${{ toJson(github) }}
+        run: |
+          echo "github env:"
+          echo "$GITHUBDUMP"
+
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v1
         with:
