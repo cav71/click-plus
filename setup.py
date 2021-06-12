@@ -12,10 +12,9 @@ import click.plus
 version = click.plus.__version__
 
 if os.getenv("GITHUB_DUMP"):
-    github_data = json.loads(os.getenv("GITHUB_DUMP"))   
-    gdata = collections.namedtuple("G", github_data)(github_data)
-    version = gdata.ref.rpartition("/")[2] + f"b{gdata.run_number}"
-    thehash = gdata.sha
+    gdata = json.loads(os.getenv("GITHUB_DUMP"))   
+    version = gdata["ref"].rpartition("/")[2] + f"b{gdata['run_number']}"
+    thehash = gdata["sha"]
     with open(click.plus.__file__, "w") as fp:
         fp.write(f"""
 __version__ = "{version}"
