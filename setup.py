@@ -18,12 +18,13 @@ __hash__ = "{thehash}"
 """.strip())
 
 
+packages = find_namespace_packages(where="src")
+packages.remove("click")
 
 setup(
     name="click-plus",
     version=version,
     url="https://github.com/cav71/click-plus",
-    #packages=find_namespace_packages(where="src"),
-    packages=["click.plus",],
-    package_dir={"click.plus": "src/click"}
+    packages=packages,
+    package_dir={"click.plus": "src/click/plus"}
 )
