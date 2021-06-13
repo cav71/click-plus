@@ -47,7 +47,7 @@ setup(
     version=version,
     url="https://github.com/cav71/click-plus",
     packages=packages,
-    package_dir={"click.plus": "src/click/plus"}
+    package_dir={"click.plus": "src/click/plus"},
     description="collection of click extensions",
     long_description=open("README.md").read()
 )
