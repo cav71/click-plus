@@ -50,7 +50,7 @@ jobs:
           py.test \
               --junitxml=build/qa-${{ matrix.python-version }}/junit.xml \
               --html=build/qa-${{ matrix.python-version }}/junit.html --self-contained-html \
-              --cov=click.plus --cov-report=build/qa-${{ matrix.python-version }}/coverage \
+              --cov=click.plus --cov-report=html:build/qa-${{ matrix.python-version }}/coverage \
             tests
 
       - name: Upload pytest test results
