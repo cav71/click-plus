@@ -30,7 +30,12 @@ def configure(extensions=None, **arguments):
         mod = inspect.getmodule(fn)
         _fn1.__doc__ = mod.__doc__
         for e in extensions:
-            _fn1 = e.setup(_fn1, arguments)
+            ret = e.setup(_fn1, arguments)
+            if isinstance(ret, (list, tuple)):
+                for w in ret:
+                    _fn1 = w(_fn1)
+            else:
+                _fn1 = ret
             if not callable(_fn1):
                 name = e.__class__.__name__
                 raise ExtensionDevelopmentError(f"{name}.setup returned non callable",
