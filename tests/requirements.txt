@@ -1,1 +1,9 @@
+pre-commit
+jinja2
 click
+mock
+flake8
+pytest
+pytest-html
+pytest-cov
+

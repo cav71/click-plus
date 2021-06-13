@@ -66,9 +66,3 @@ class MyArguments(api.ExtensionBase):
         factor = arguments["factor"]
         kwargs["value"] = value * boost * factor
 ```
-
-### testing
-
-```bash
-PYTHONPATH=src py.test -vvs tests
-```
