@@ -43,17 +43,21 @@ jobs:
             # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
             flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
-      - name: Test with pytest
+      - name: Run tests and coverage
         env:
           PYTHONPATH: src
         run: |
-          pytest --junitxml=junit/test-results-${{ matrix.python-version }}.xml tests
+          py.test \
+              --junitxml=build/qa-${{ matrix.python-version }}/junit.xml \
+              --html=build/qa-${{ matrix.python-version }}/junit.html --self-contained-html \
+              --cov=click.plus --cov-report=build/qa-${{ matrix.python-version }}/coverage \
+            tests
 
       - name: Upload pytest test results
         uses: actions/upload-artifact@v2
         with:
           name: pytest-results-${{ matrix.python-version }}
-          path: junit/test-results-${{ matrix.python-version }}.xml
+          path: build/qa-${{ matrix.python-version }}
         # Use always() to always run this step to publish test results when there are test failures
         if: always()
 
