@@ -11,7 +11,11 @@ import click.plus.extension.goodies
 
 class MyArguments(api.ExtensionBase):
     def setup(self, fn, arguments):
-        fn = click.decorators.option("--boost", type=int, default=1)(fn)
+        options = [
+            click.decorators.option("--boost", type=int, default=1)
+        ]
+        for option in options:
+            fn = option(fn)
         return fn
 
     def process(self, kwargs, arguments):
