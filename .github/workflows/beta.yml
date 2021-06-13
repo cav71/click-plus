@@ -65,10 +65,12 @@ jobs:
         run: |
           python -m build
 
-      - name: Upload packages
-        uses: actions/upload-artifact@v2
-        with:
-          name: wheel-build-${{ matrix.python-version }}
-          path: dist/*
+      - name: Publish packages
+        shell: bash
+        env:
+          TWINE_USERNAME: ${{ secrets.PYPI_TEST_USERNAME }}
+          TWINE_PASSWORD: ${{ secrets.PYPI_TEST_PASSWORD }}
+        run: |
+          twine upload --skip-existing --non-interactive --repository testpypi dist/*
   
 
