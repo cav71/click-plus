@@ -52,8 +52,10 @@ import click
 from   click.plus.extension import api
 
 class MyArguments(api.ExtensionBase):
+    NAME = "myarguments"
+    
     # here you can add as many click arguments/options
-    def setup(self, fn, arguments):        
+    def setup(self, fn, arguments):
         fn = click.option("--boost", type=int, default=1)(fn)
         return fn
     
