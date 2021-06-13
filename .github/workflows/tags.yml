@@ -42,3 +42,10 @@ jobs:
           GITHUB_DUMP: ${{ toJson(github) }}
         run: |
           python -m build
+
+      - name: Upload packages
+        uses: actions/upload-artifact@v2
+        with:
+          name: wheel-build-${{ matrix.python-version }}
+          path: dist/*
+
