@@ -21,10 +21,10 @@ def scripter(tmp_path_factory):
                         cwd=self.tmpdir if cwd is True else cwd,
                         stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             out, err = self.p.communicate()
-            return R(
-                out if isinstance(out, str) else str(out, encoding="utf-8"), 
-                err if isinstance(err, str) else str(err, encoding="utf-8"), 
-                self.p.returncode)
+            out = out if isinstance(out, str) else str(out, encoding="utf-8")
+            err = err if isinstance(err, str) else str(err, encoding="utf-8")
+
+            return R(out.replace("\r\n", "\n"), err.replace("\r\n", "\n"), self.p.returncode)
 
     class Scripter:
         def __init__(self):
