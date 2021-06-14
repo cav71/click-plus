@@ -18,10 +18,12 @@ def scripter(tmp_path_factory):
         def run(self, args, cwd=None):
             self.p = subprocess.Popen([self.exe, self.script, *args],
                         cwd=self.tmpdir if cwd is True else cwd,
-                        text=True,
                         stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             out, err = self.p.communicate()
-            return R(out, err, self.p.returncode)
+            return R(
+                out if isinstance(out, str) else str(out, encoding="utf-8"), 
+                err if isinstance(err, str) else str(err, encoding="utf-8"), 
+                self.p.returncode)
 
     class Scripter:
         def __init__(self):
