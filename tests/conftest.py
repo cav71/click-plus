@@ -16,7 +16,8 @@ def scripter(tmp_path_factory):
             self.exe = exe
 
         def run(self, args, cwd=None):
-            self.p = subprocess.Popen([self.exe, self.script, *args],
+            cmd = [ str(a) for a in [self.exe, self.script, *args] ]
+            self.p = subprocess.Popen(cmd,
                         cwd=self.tmpdir if cwd is True else cwd,
                         stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             out, err = self.p.communicate()
