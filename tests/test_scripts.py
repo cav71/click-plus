@@ -49,3 +49,16 @@ def test_script1(scripter):
     result = script.run([ "factor-10", "13", "--boost", "3"])
     assert "Got 390" == result.out.strip()
     
+
+def test_script2(scripter):
+    "test a script with group"
+
+    script = scripter / "script-2.py"
+
+    # test help
+    assert not script.run(["--help", ]).code
+
+    result = script.run([ "99" ])
+    assert "Got 99" == result.out.strip()
+    assert "This is the ExtensionBase.setup" in result.err
+    assert "This is the ExtensionBase.process" in result.err

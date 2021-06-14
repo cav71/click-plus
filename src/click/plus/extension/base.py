@@ -1,4 +1,5 @@
 import abc
+import sys
 import inspect
 
 
@@ -48,10 +49,10 @@ class ExtensionBase(abc.ABC):
 
     @abc.abstractmethod
     def setup(self, fn, arguments):
-        print(f"This is the ExtensionBase.setup(fn, arguments={arguments})")
+        print(f"This is the ExtensionBase.setup(fn, arguments={arguments})", file=sys.stderr)
         return fn
 
     @abc.abstractmethod
     def process(self, kwargs, arguments):
-        print(f"This is the ExtensionBase.process(kwargs={kwargs}, arguments={arguments})")
+        print(f"This is the ExtensionBase.process(kwargs={kwargs}, arguments={arguments})", file=sys.stderr)
 

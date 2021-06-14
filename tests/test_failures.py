@@ -16,3 +16,13 @@ def test_failure_missing(scripter):
         in result.err)
     assert result.code
     assert not result.out
+
+
+def test_failure_wrong_setup(scripter):
+    "test for wrong setup return code"
+
+    result = (scripter / "script-failure-2.py").run(["--help"])
+    assert ("click.plus.extension.base.ExtensionDevelopmentError: ('MyArguments.setup returned non callable'"
+        in result.err)
+    assert result.code
+    assert not result.out
