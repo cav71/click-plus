@@ -1,12 +1,15 @@
-import os
-import sys
+import re
 import json
-import collections
+import os
+import pathlib
+import sys
 
 
 from setuptools import setup, find_namespace_packages
 
-sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "src"))
+sys.path.insert(0,
+                os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                             "src"))
 import click.plus
 
 
@@ -59,8 +62,8 @@ def update_version(data, path, fallback):
 
     exp = re.compile(r"__version__\s*=\s*")
     exp1 = re.compile(r"__hash__\s*=\s*")
-    assert len([ l for l in lines if exp.search(l)]) == 1
-    assert len([ l for l in lines if exp1.search(l)]) == 1
+    assert len([l for l in lines if exp.search(l)]) == 1
+    assert len([l for l in lines if exp1.search(l)]) == 1
 
     lines = [
         f"__version__ = \"{version}\"" if exp.search(l) else
@@ -69,13 +72,13 @@ def update_version(data, path, fallback):
         for l in lines
     ]
 
-    pathlib.Path(mono2repo.__file__).write_text("\n".join(lines))
+    pathlib.Path(path).write_text("\n".join(lines))
     return version
 
 
 version = update_version(os.getenv("GITHUB_DUMP"),
-    click,plus.__file__,
-    click,plus.__version__)
+                         click.plus.__file__,
+                         click.plus.__version__)
 
 packages = find_namespace_packages(where="src")
 packages.remove("click")
@@ -89,5 +92,5 @@ setup(
     description="collection of click extensions",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
-    install_requires = [ "click", ],
+    install_requires=["click"],
 )
