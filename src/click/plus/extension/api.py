@@ -10,7 +10,7 @@ from .base import ExtensionBase
 
 try:
     import click
-    click.command
+    click.command  # type: ignore
 except AttributeError:
     # The reason for this workaround is click package __init__
     # contains code, so once click.__init__ is imported this
@@ -18,7 +18,7 @@ except AttributeError:
     # With the current setup.py in the click-plus this is not an issue
     # but when running out of source code cannot just import
     # click and using for example click.command.
-    import click.decorators as click
+    import click.decorators as click  # type: ignore
 
 
 def configure(extensions=None, **arguments):
