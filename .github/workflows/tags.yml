@@ -17,7 +17,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: dump env
+      - name: Dump env
         shell: bash
         env:
           GITHUB_DUMP: ${{ toJson(github) }}
@@ -25,7 +25,7 @@ jobs:
           echo "github env:"
           echo "$GITHUB_DUMP"
 
-      - name: Set up Python ${{ matrix.python-version }}
+      - name: Set up Python interpreter [${{ matrix.python-version }}]
         uses: actions/setup-python@v1
         with:
           python-version: ${{ matrix.python-version }}
@@ -35,17 +35,21 @@ jobs:
         run: |
             python -m pip install --upgrade pip
             pip install setuptools build wheel twine
+            pip install -r tests/requirements.txt
 
-      - name: Build packages
+      - name: Pyblish package to pypi
         env:
           PYTHONPATH: src
           GITHUB_DUMP: ${{ toJson(github) }}
         run: |
           python -m build
 
-      - name: Upload packages
-        uses: actions/upload-artifact@v2
-        with:
-          name: wheel-build-${{ matrix.python-version }}
-          path: dist/*
+      - name: Publish packages
+        shell: bash
+        env:
+          TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
+          TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+        run: |
+          twine upload --skip-existing --non-interactive dist/*
+  
 

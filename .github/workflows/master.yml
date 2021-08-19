@@ -16,7 +16,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: dump env
+      - name: Dump env
         shell: bash
         env:
           GITHUB_DUMP: ${{ toJson(github) }}
@@ -24,7 +24,7 @@ jobs:
           echo "github env:"
           echo "$GITHUB_DUMP"
 
-      - name: Set up Python ${{ matrix.python-version }}
+      - name: Set up Python interpreter [${{ matrix.python-version }}]
         uses: actions/setup-python@v1
         with:
           python-version: ${{ matrix.python-version }}
@@ -37,22 +37,34 @@ jobs:
             pip install -r tests/requirements.txt
 
       - name: Lint with flake8
+        shell: bash
+        env:
+          PYTHONPATH: src
         run: |
             # stop the build if there are Python syntax errors or undefined names
             flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
             # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
             flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
-      - name: Run tests and coverage
+      - name: Test and coverage
         shell: bash
         env:
           PYTHONPATH: src
+          OUTDIR: build/qa-${{ matrix.python-version }}
         run: |
-          py.test \
-              --junitxml=build/qa-${{ matrix.python-version }}/junit.xml \
-              --html=build/qa-${{ matrix.python-version }}/junit.html --self-contained-html \
-              --cov=click.plus --cov-report=html:build/qa-${{ matrix.python-version }}/coverage \
+          py.test --cov=mono2repo \
+              --cov-report=html:$OUTDIR/coverage \
+              --junitxml=$OUTDIR/junit/junit.xml --html=$OUTDIR/junit/junit.html --self-contained-html \
             tests
+
+      - name: Static check
+        shell: bash
+        env:
+          PYTHONPATH: src
+          OUTDIR: build/qa-${{ matrix.python-version }}
+        run: |
+          mypy mono2repo.py \
+            --no-incremental --xslt-html-report $OUTDIR/mypy
 
       - name: Upload pytest test results
         uses: actions/upload-artifact@v2
