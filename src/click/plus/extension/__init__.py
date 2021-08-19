@@ -1,1 +1,1 @@
-from .api import configure
+from .api import configure  # noqa: F401
