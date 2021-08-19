@@ -43,9 +43,9 @@ jobs:
           PYTHONPATH: src
         run: |
             # stop the build if there are Python syntax errors or undefined names
-            flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+            flake8 src --count --select=E9,F63,F7,F82 --show-source --statistics
             # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-            flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+            flake8 src --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
       - name: Test and coverage
         shell: bash
@@ -53,7 +53,8 @@ jobs:
           PYTHONPATH: src
           OUTDIR: build/qa-${{ matrix.python-version }}
         run: |
-          py.test --cov=mono2repo \
+          py.test \
+              --cov=click.plus \
               --cov-report=html:$OUTDIR/coverage \
               --junitxml=$OUTDIR/junit/junit.xml --html=$OUTDIR/junit/junit.html --self-contained-html \
             tests
@@ -64,7 +65,7 @@ jobs:
           PYTHONPATH: src
           OUTDIR: build/qa-${{ matrix.python-version }}
         run: |
-          mypy mono2repo.py \
+          mypy src \
             --no-incremental --xslt-html-report $OUTDIR/mypy
 
       - name: Upload pytest test results
