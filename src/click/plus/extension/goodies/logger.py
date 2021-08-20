@@ -3,7 +3,7 @@ import sys
 import logging
 
 try:
-    from .api import ExtensionBase, click
+    from .api import ExtensionBase, click # type: ignore
 except ImportError:
     # this is needed only for internal Extension
     from click.plus.extension.api import ExtensionBase, click
