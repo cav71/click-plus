@@ -10,7 +10,6 @@ This is a curated collection of click extensions.
  </dd>
 </dl>
 
-
 ### click.plus.extension example
 This click-plus package allows creation of common
 groups of click actions/options amongst scritps.
