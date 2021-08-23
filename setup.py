@@ -90,7 +90,7 @@ setup(
     packages=packages,
     package_dir={"click.plus": "src/click/plus"},
     description="collection of click extensions",
-    long_description=open("README.MD").read(),
+    long_description=next(pathlib.Path(".").glob("README.*")).read_text(),
     long_description_content_type="text/markdown",
     install_requires=["click"],
 )
