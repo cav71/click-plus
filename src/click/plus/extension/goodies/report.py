@@ -2,11 +2,7 @@ import os
 import sys
 import logging
 
-try:
-    from .api import ExtensionBase, click # type: ignore
-except ImportError:
-    # this is needed only for internal Extension
-    from click.plus.extension.api import ExtensionBase, click
+from click.plus.extension.api import ExtensionBase
 
 
 logger = logging.getLogger(__name__)
@@ -16,15 +12,16 @@ class Report(ExtensionBase):
     NAME = "report"
     LOGGING_VAR = "application" # the logging can extract application data
                                 # from the extra[LOGGING_VAR]
-
     def setup(self, fn, arguments):
         from time import monotonic
         from functools import wraps
+        from click.decorators import pass_context # this workaround is needed
+                                                  # only when developing click.plus
 
         self.log = log = (arguments.get(f"{self.NAME}.log", {})
                           .get("log", logger))
 
-        @click.pass_context
+        @pass_context
         @wraps(fn)
         def inner(ctx, *args, **kwargs):
             cwd = os.getcwd()
@@ -64,9 +61,15 @@ class Report(ExtensionBase):
 
 
 def example():
+    # this is a workaround needed
+    # only when developing click.plus
+    from click.decorators import command, argument
+    from click.types import Choice
+
     from click.plus.extension import configure
-    @click.command()
-    @click.argument("mode")
+
+    @command()
+    @argument("mode", type=Choice(["raise", "run",], case_sensitive=False))
     @configure(["report",])
     def main(mode):
         if mode == "raise":

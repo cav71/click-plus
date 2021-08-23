@@ -2,11 +2,7 @@ import os
 import sys
 import logging
 
-try:
-    from .api import ExtensionBase, click # type: ignore
-except ImportError:
-    # this is needed only for internal Extension
-    from click.plus.extension.api import ExtensionBase, click
+from click.plus.extension.api import ExtensionBase
 
 
 logger = logging.getLogger(__name__)
@@ -40,8 +36,12 @@ class Logger(ExtensionBase):
     LOGGING_VAR = "application"
 
     def setup(self, fn, arguments):
-        fn = click.option("-v", "--verbose", count=True)(fn)
-        fn = click.option("-q", "--quiet", count=True)(fn)
+        # this is a workaround needed
+        # only when developing click.plus
+        from click.decorators import option
+
+        fn = option("-v", "--verbose", count=True)(fn)
+        fn = option("-q", "--quiet", count=True)(fn)
         return fn
 
     def process(self, kwargs, arguments):
@@ -65,11 +65,15 @@ class Logger(ExtensionBase):
 
 
 def example():
+    # this is a workaround needed
+    # only when developing click.plus
+    from click.decorators import command, argument
+
     from click.plus.extension import configure
-    @click.command()
-    @click.argument("mode")
+
+    @command()
     @configure(["logger",], logger="quiet")
-    def main(mode):
+    def main():
         logging.getLogger("x").debug("A debug message")
         logging.getLogger("x").info("An info message")
         logging.getLogger("x").warning("A warning message")
