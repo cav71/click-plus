@@ -1,5 +1,3 @@
-import os
-import sys
 import logging
 
 from click.plus.extension.api import ExtensionBase
@@ -17,6 +15,7 @@ class _MyHandler(logging.StreamHandler):
 
     def emit(self, record):
         from json import dumps
+
         data = ""
         if hasattr(record, self.logging_var):
             data = getattr(record, self.logging_var)
@@ -24,13 +23,13 @@ class _MyHandler(logging.StreamHandler):
                 data = dumps(data, indent=self.INDENT, sort_keys=True)
             data = data.strip()
             if data:
-                pre = " "*self.INDENT
+                pre = " " * self.INDENT
                 data = f"\n{pre}" + f"\n{pre}".join(data.split("\n"))
         setattr(record, self.logging_var, data)
         return super(_MyHandler, self).emit(record)
 
 
-class Logger(ExtensionBase):
+class Logging(ExtensionBase):
     # the logging extra variable eg.
     # logging.info("msg", extra={ "application" : <some-data> })
     LOGGING_VAR = "application"
@@ -58,25 +57,31 @@ class Logger(ExtensionBase):
             level = logging.WARN
 
         fmt = f"%(levelname)s:%(name)s:%(message)s%({self.LOGGING_VAR})s"
-        logging.basicConfig(level=level,
-                            handlers=[_MyHandler(self.LOGGING_VAR)],
-                            format=fmt)
+        logging.basicConfig(
+            level=level, handlers=[_MyHandler(self.LOGGING_VAR)], format=fmt
+        )
         return kwargs
 
 
 def example():
     # this is a workaround needed
     # only when developing click.plus
-    from click.decorators import command, argument
+    from click.decorators import command
 
     from click.plus.extension import configure
 
     @command()
-    @configure(["logger",], logger="quiet")
+    @configure(
+        [
+            "logger",
+        ],
+        logger="quiet",
+    )
     def main():
         logging.getLogger("x").debug("A debug message")
         logging.getLogger("x").info("An info message")
         logging.getLogger("x").warning("A warning message")
+
     main()
 
 
