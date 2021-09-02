@@ -1,6 +1,6 @@
 import logging
 
-from click.plus.extension.api import ExtensionBase
+from click.plus.api import ExtensionBase
 
 
 logger = logging.getLogger(__name__)
@@ -68,7 +68,7 @@ def example():
     # only when developing click.plus
     from click.decorators import command
 
-    from click.plus.extension import configure
+    from click.plus import configure
 
     @command()
     @configure(

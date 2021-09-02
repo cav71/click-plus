@@ -2,7 +2,7 @@ import os
 import sys
 import logging
 
-from click.plus.extension.api import ExtensionBase
+from click.plus.api import ExtensionBase
 
 
 logger = logging.getLogger(__name__)
@@ -76,7 +76,7 @@ def example():
     from click.decorators import command, argument
     from click.types import Choice
 
-    from click.plus.extension import configure
+    from click.plus import configure
 
     @command()
     @argument(
