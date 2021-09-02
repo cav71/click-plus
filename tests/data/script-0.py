@@ -1,16 +1,16 @@
 from click.decorators import command, argument, option
-import click.plus.extension
-from click.plus.extension import api
+import click.plus
+from click.plus import api
 
 
 class MyArguments(api.ExtensionBase):
     NAME = "myarguments"
-    
+
     # here you can add as many click arguments/options
     def setup(self, fn, arguments):
         fn = option("--boost", type=int, default=1)(fn)
         return fn
-    
+
     # kwargs contains the main **kwargs, you can modify in place
     # or return a new dict here. arguments is a dict to the
     # decorator arguments
@@ -23,7 +23,7 @@ class MyArguments(api.ExtensionBase):
 
 @command()
 @argument("value", type=int)
-@click.plus.extension.configure(["myarguments"], factor=2)
+@click.plus.configure(["myarguments"], factor=2)
 def main(value):
     print("Got", value)
 

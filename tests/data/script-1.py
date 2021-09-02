@@ -1,17 +1,14 @@
 from click.decorators import group, argument, option
-import click.plus.extension
-from click.plus.extension import api
+import click.plus
+from click.plus import api
 
 
 class MyArguments(api.ExtensionBase):
     NAME = "myarguments"
 
     def setup(self, fn, arguments):
-        return [
-            option("--boost", type=int, default=1),
-            argument("value", type=int)
-        ]
-    
+        return [option("--boost", type=int, default=1), argument("value", type=int)]
+
     # decorator arguments
     def process(self, kwargs, arguments):
         value = kwargs["value"]
@@ -26,13 +23,13 @@ def main():
 
 
 @main.command(name="factor-2")
-@click.plus.extension.configure(["myarguments"], factor=2)
+@click.plus.configure(["myarguments"], factor=2)
 def factor_2(value):
     print("Got", value)
 
 
 @main.command(name="factor-10")
-@click.plus.extension.configure(["myarguments"], factor=10)
+@click.plus.configure(["myarguments"], factor=10)
 def factor_10(value):
     print("Got", value)
 

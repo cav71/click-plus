@@ -1,11 +1,12 @@
-from click.decorators import command, argument, option
-import click.plus.extension
-from click.plus.extension import api
+from click.decorators import command, argument
+import click.plus
+from click.plus import api
 
 
 class MyArguments(api.ExtensionBase):
     def setup(self, fn, arguments):
         pass
+
     def process(self, kwargs, arguments):
         pass
 
@@ -13,14 +14,14 @@ class MyArguments(api.ExtensionBase):
 class MyArguments2(api.ExtensionBase):
     def setup(self, fn, arguments):
         pass
+
     def process(self, kwargs, arguments):
         pass
-    
 
 
 @command()
 @argument("value", type=int)
-@click.plus.extension.configure(["myarguments", "blah"], factor=2)
+@click.plus.configure(["myarguments", "blah"], factor=2)
 def main(value):
     pass
 

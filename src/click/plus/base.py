@@ -25,7 +25,8 @@ def walk_classes(klasses, classes):
         if name.lower() in classes:
             raise ExtensionDevelopmentError(
                 f"duplicate name for extension {name}",
-                inspect.getfile(c), inspect.getfile(classes[name.lower()])
+                inspect.getfile(c),
+                inspect.getfile(classes[name.lower()]),
             )
         classes[name.lower()] = c
 
@@ -43,8 +44,10 @@ class ExtensionBase(abc.ABC):
             walk_classes(cls.__subclasses__(), ExtensionBase.classes)
 
         if name.lower() not in ExtensionBase.classes:
-            raise ExtensionNotFound(f"no class found for name={name}",
-                                    ', '.join(ExtensionBase.classes) or 'none')
+            raise ExtensionNotFound(
+                f"no class found for name={name}",
+                ", ".join(ExtensionBase.classes) or "none",
+            )
         return ExtensionBase.classes[name.lower()]
 
     def __init__(self, name, dependencies=None):
@@ -52,13 +55,21 @@ class ExtensionBase(abc.ABC):
 
     @abc.abstractmethod
     def setup(self, fn, arguments):
-        print(f"This is the ExtensionBase.setup(fn, arguments={arguments})",
-              file=sys.stderr)
+        print(
+            f"This is the ExtensionBase.setup(fn, arguments={arguments})",
+            file=sys.stderr,
+        )
         return fn
 
     @abc.abstractmethod
     def process(self, kwargs, arguments):
-        print((
-            f"This is the ExtensionBase.process(kwargs={kwargs},"
-            f" arguments={arguments})"
-            ), file=sys.stderr)
+        print(
+            (
+                f"This is the ExtensionBase.process(kwargs={kwargs},"
+                f" arguments={arguments})"
+            ),
+            file=sys.stderr,
+        )
+
+    def atexit(self, exit_stack):
+        pass
