@@ -1,5 +1,5 @@
 # click-plus
-
+[![PyPI version](https://badge.fury.io/py/click-plus.svg)](https://badge.fury.io/py/click-plus)
 ### Introduction
 This package helps creating re-usable flags for click scripts.
 
