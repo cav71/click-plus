@@ -1,14 +1,13 @@
 # click-plus
 
 ### Introduction
-This package allows creation of re-usable flags for click scripts.
+This package helps creating re-usable flags for click scripts.
 
 Example:
 ```python
 
 import click
 import click.plus
-import module containing a class named MyCustomSet
 
 @click.command()
 .. normal click options/arguments

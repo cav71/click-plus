@@ -1,7 +1,45 @@
 ## click.plus Example
-Let's group a set of options/arguments we'd like to share across 
-click scripts/commands.
+In this example we're going to create a set of options/arguments
+that can be shared across script and commands.
+The script is a click script with two commands, and they both take a common flag `--boost`.
+```bash
+./hello.py per10 --boost 3 12
+Got 360 # 10 * 3 * 12
+./hello.py per20 --boost 3 12
+Got 720 # 20 * 3 * 12
+```
 
+### how to use the options/arguments set
+This is the main script (for details on what's in my_common_args please see below)
+
+```python
+import click
+import click.plus
+
+# That's the module containing the MyBoost api.ExtensionBase derived class
+import my_common_args
+
+@click.group()
+def main():
+    pass
+
+@main.command()
+@click.plus.extension.configure(["booster"], factor=10)
+@click.argument("value", type=int)
+def per10(value)
+    print("Got", value)
+
+@main.command()
+@click.plus.extension.configure(["booster"], factor=20)
+@click.argument("value", type=int)
+def per20(value):
+    print("Got", value)
+
+if __name__ == "__main__":
+    main()
+```
+
+### define the options/arguments set
 First we define in some module (eg. my_common_args.py) one or more classes:
 ```python
 import click
@@ -34,27 +72,6 @@ class MyBoost(api.ExtensionBase):
         kwargs["value"] = value * boost * factor
 ```
 
-To use this --boost flag:
-```python
-import click
-import click.plus
-
-# we need to import the module containing the classes derived from api.ExtensionBase
-import my_common_args
-
-# standard click handling
-@click.command()
-@click.argument("value", type=int)
-
-# configure takes a list of names (case insensitive) and looks up
-# { "factor" : 2 } will be passed as arguments to setup and process
-@click.plus.extension.configure(["booster"], factor=2)
-def main(value):
-    print("Got", value)
-
-if __name__ == "__main__":
-    main()
-```
 
 This is the usage:
 ```shell
