@@ -71,10 +71,3 @@ class MyBoost(api.ExtensionBase):
         boost = kwargs.pop("boost")
         kwargs["value"] = value * boost * factor
 ```
-
-
-This is the usage:
-```shell
-$> by-two.py --boost 3 9
-54 (eg. value=9 * boost=3 * factor=2)
-```
