@@ -5,7 +5,7 @@ to add a common --boost flag.
 """
 
 # This is an artifact needed only for development,
-# usually you just use import click
+# usually here you'd just import click
 try:
     from click import group, argument
 except ImportError:
@@ -20,6 +20,7 @@ import boost  # noqa: F401
 
 @group()
 def main():
+    """a multicommand wrapper"""
     pass
 
 
@@ -27,7 +28,9 @@ def main():
 @click.plus.configure(["booster"], factor=10)
 @argument("value", type=int)
 def per10(value):
-    "multiplies the value x 10"
+    """multiplies the value x 10
+
+    This subcommand multiply the value x 10 by default (the boost)."""
     print("Got", value)
 
 
