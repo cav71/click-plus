@@ -1,0 +1,8 @@
+Usage: example.py [OPTIONS] COMMAND [ARGS]...
+
+Options:
+  --help  Show this message and exit.
+
+Commands:
+  per10  This is an example script
+  per20  This is an example script
