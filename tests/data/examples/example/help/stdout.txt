@@ -1,8 +1,10 @@
 Usage: example.py [OPTIONS] COMMAND [ARGS]...
 
+  a multicommand wrapper
+
 Options:
   --help  Show this message and exit.
 
 Commands:
-  per10  This is an example script
-  per20  This is an example script
+  per10  multiplies the value x 10
+  per20  multiplies the value x 20

@@ -1,0 +1,9 @@
+Usage: example.py per10 [OPTIONS] VALUE
+
+  multiplies the value x 10
+
+  This subcommand multiply the value x 10 by default (the boost).
+
+Options:
+  --boost INTEGER
+  --help           Show this message and exit.
