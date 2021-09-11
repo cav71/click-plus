@@ -5,7 +5,7 @@ __hash__ = ""
 def configure(extensions=None, **arguments):
     from contextlib import ExitStack
     from functools import wraps
-    from inspect import getmodule, getfile
+    from inspect import getfile
     from .base import ExtensionBase, ExtensionDevelopmentError  # noqa: F401
 
     extensions = [ExtensionBase.get(e)(e) for e in (extensions or [])]
@@ -19,15 +19,13 @@ def configure(extensions=None, **arguments):
                     e.atexit(stack)
                 return fn(**kwargs)
 
-        mod = getmodule(fn)
-        _fn1.__doc__ = mod.__doc__
         for e in extensions:
             ret = e.setup(_fn1, arguments)
             if isinstance(ret, (list, tuple)):
                 for w in ret:
-                    _fn1 = w(_fn1)
+                    _fn1 = wraps(fn)(w(_fn1))
             else:
-                _fn1 = ret
+                _fn1 = wraps(fn)(ret)
             if not callable(_fn1):
                 name = e.__class__.__name__
                 raise ExtensionDevelopmentError(
