@@ -89,5 +89,36 @@ def test_example(scripter):
     "tets the example script"
 
     script = scripter / "examples/example.py"
-    script.run(["--help"])
-    script.compare("example-help")
+
+    cmds = [
+        (
+            "help",
+            "--help",
+        ),
+        (
+            "help-per10",
+            "per10",
+            "--help",
+        ),
+        (
+            "run-per10",
+            "per10",
+            "12",
+        ),
+        (
+            "run-per10-boost3",
+            "per10",
+            "12",
+            "--boost",
+            "3",
+        ),
+        (
+            "run-per20",
+            "per20",
+            "12",
+        ),
+    ]
+
+    for i, (name, *cmd) in enumerate(cmds):
+        script.run(cmd)
+        script.compare(f"example/{name}")
