@@ -7,9 +7,7 @@ import sys
 
 from setuptools import setup, find_namespace_packages
 
-sys.path.insert(0,
-                os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                             "src"))
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "src"))
 import click.plus
 
 
@@ -32,22 +30,24 @@ def hubversion(gdata, fallback):
         'sha': '2169f90c',
         'run_number': '20',
     }, '123'))
-    ('123', '2169f90c')
-"""
+    ('123', '2169f90c')"""
     txt = gdata["ref"]
-    number = gdata['run_number']
+    number = gdata["run_number"]
     shasum = gdata["sha"]
     head, _, rest = txt.partition("/")
 
     cases = [
-        ("refs/heads/master", fallback,),
+        (
+            "refs/heads/master",
+            fallback,
+        ),
         ("refs/heads/beta/", f"b{number}"),
         ("refs/tags/release/", ""),
     ]
     for pat, out in cases:
         if not txt.startswith(pat):
             continue
-        return txt[len(pat):] + out, shasum
+        return txt[len(pat) :] + out, shasum
     raise RuntimeError("unhandled github ref", txt)
 
 
@@ -66,9 +66,11 @@ def update_version(data, path, fallback):
     assert len([l for l in lines if exp1.search(l)]) == 1
 
     lines = [
-        f"__version__ = \"{version}\"" if exp.search(l) else
-        f"__hash__ = \"{thehash}\"" if exp1.search(l) else
-        l
+        f'__version__ = "{version}"'
+        if exp.search(l)
+        else f'__hash__ = "{thehash}"'
+        if exp1.search(l)
+        else l
         for l in lines
     ]
 
@@ -76,9 +78,9 @@ def update_version(data, path, fallback):
     return version
 
 
-version = update_version(os.getenv("GITHUB_DUMP"),
-                         click.plus.__file__,
-                         click.plus.__version__)
+version = update_version(
+    os.getenv("GITHUB_DUMP"), click.plus.__file__, click.plus.__version__
+)
 
 packages = find_namespace_packages(where="src")
 packages.remove("click")
@@ -93,4 +95,18 @@ setup(
     long_description=pathlib.Path("README.md").read_text(),
     long_description_content_type="text/markdown",
     install_requires=["click"],
+    classifiers=[
+        "Development Status :: 4 - Beta",
+        "Environment :: Console",
+        "Intended Audience :: Developers",
+        "Programming Language :: Python",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.5",
+        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Operating System :: OS Independent",
+        "License :: OSI Approved :: MIT License",
+    ],
 )
