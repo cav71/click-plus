@@ -24,6 +24,8 @@ def configure(extensions=None, **arguments):
             if isinstance(ret, (list, tuple)):
                 for w in ret:
                     _fn1 = wraps(fn)(w(_fn1))
+            elif ret is None:
+                _fn1 = None
             else:
                 _fn1 = wraps(fn)(ret)
             if not callable(_fn1):
