@@ -1,6 +1,7 @@
 import os
 import sys
 import pathlib
+import shutil
 import contextlib
 import collections
 import subprocess
@@ -17,7 +18,7 @@ def datadir(request):
 
 
 @pytest.fixture()
-def scripter(tmp_path_factory, datadir):
+def scripter(request, tmp_path_factory, datadir):
     """handles script (cli) execution
 
     def test(scripter):
@@ -28,15 +29,27 @@ def scripter(tmp_path_factory, datadir):
     """
     Result = collections.namedtuple("R", "out,err,code")
 
+    class ScripterError(Exception):
+        pass
+
+    class MissingItemError(ScripterError):
+        pass
+
     class Exe:
-        def __init__(self, script, workdir, exe=sys.executable):
+        def __repr__(self):
+            return (
+                f"<{self.__class__.__name__} script={self.script} at {hex(id(self))}>"
+            )
+
+        def __init__(self, script, workdir, datadir, exe):
             self.script = script
             self.workdir = workdir
+            self.datadir = datadir
             self.exe = exe
             if not pathlib.Path(script).exists():
-                raise RuntimeError(f"script file {script} found")
+                raise MissingItemError(f"script file {script} not found")
 
-        def run(self, args, cwd=None):
+        def run(self, args, cwd=None, load_data=True):
             cmd = [str(a) for a in [self.exe, self.script, *args]]
 
             with contextlib.ExitStack() as stack:
@@ -55,16 +68,28 @@ def scripter(tmp_path_factory, datadir):
                 out.replace("\r\n", "\n"), err.replace("\r\n", "\n"), self.p.returncode
             )
 
-        def compare(self, datadir):
-            pass
+        def compare(self, refdir, populate=False):
+            src = self.datadir / refdir
+            if not src.exists():
+                raise MissingItemError(f"reference dir {src} not found")
+
+            for name in ["stdout.txt", "stderr.txt"]:
+                left = src / name
+                right = self.workdir / name
+                if populate:
+                    if left.exists():
+                        raise ScripterError(f"cannot overwrite {left} with {right}")
+                    shutil.copyfile(right, left)
+                assert left.read_text() == right.read_text()
 
     class Scripter:
-        def __init__(self, src):
-            self.src = src
-            self.exe = sys.executable
+        def __init__(self, srcdir, datadir, exe=sys.executable):
+            self.srcdir = srcdir
+            self.datadir = datadir
+            self.exe = exe
 
         def __truediv__(self, path):
             tmpdir = tmp_path_factory.mktemp(pathlib.Path(path).with_suffix("").name)
-            return Exe(self.src / path, tmpdir)
+            return Exe(self.srcdir / path, tmpdir, self.datadir, self.exe)
 
-    return Scripter(datadir)
+    return Scripter(pathlib.Path(request.module.__file__).parent, datadir)
