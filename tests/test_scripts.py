@@ -4,7 +4,7 @@ DATADIR = "examples"
 def test_script0(scripter):
     "test a simple script"
 
-    script = scripter / "script-0.py"
+    script = scripter / "examples/script-0.py"
 
     # test help
     result = script.run(
@@ -42,7 +42,7 @@ Options:
 def test_script1(scripter):
     "test a script with group"
 
-    script = scripter / "script-1.py"
+    script = scripter / "examples/script-1.py"
 
     # test help
     assert not script.run(
@@ -70,8 +70,7 @@ def test_script1(scripter):
 
 def test_script2(scripter):
     "test a script with group"
-
-    script = scripter / "script-2.py"
+    script = scripter / "examples/script-2.py"
 
     # test help
     assert not script.run(
@@ -84,3 +83,11 @@ def test_script2(scripter):
     assert "Got 99" == result.out.strip()
     assert "This is the ExtensionBase.setup" in result.err
     assert "This is the ExtensionBase.process" in result.err
+
+
+def test_example(scripter):
+    "tets the example script"
+
+    script = scripter / "examples/example.py"
+    script.run(["--help"])
+    script.compare("example-help")
