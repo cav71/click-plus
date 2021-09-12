@@ -8,7 +8,7 @@ import sys
 from setuptools import setup, find_namespace_packages
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "src"))
-import click.plus
+import click.plus  # noqa: E402
 
 
 def hubversion(gdata, fallback):
@@ -62,8 +62,8 @@ def update_version(data, path, fallback):
 
     exp = re.compile(r"__version__\s*=\s*")
     exp1 = re.compile(r"__hash__\s*=\s*")
-    assert len([l for l in lines if exp.search(l)]) == 1
-    assert len([l for l in lines if exp1.search(l)]) == 1
+    assert len([l for l in lines if exp.search(l)]) == 1  # noqa: E741
+    assert len([l for l in lines if exp1.search(l)]) == 1  # noqa: E741
 
     lines = [
         f'__version__ = "{version}"'
@@ -71,7 +71,7 @@ def update_version(data, path, fallback):
         else f'__hash__ = "{thehash}"'
         if exp1.search(l)
         else l
-        for l in lines
+        for l in lines  # noqa: E741
     ]
 
     pathlib.Path(path).write_text("\n".join(lines))
@@ -92,7 +92,7 @@ setup(
     packages=packages,
     package_dir={"click.plus": "src/click/plus"},
     description="collection of click extensions",
-    long_description=pathlib.Path("README.md").read_text(),
+    long_description=pathlib.Path("README.rst").read_text(),
     long_description_content_type="text/markdown",
     install_requires=["click"],
     classifiers=[
