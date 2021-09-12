@@ -1,12 +1,30 @@
 ### Release
 
 #### Betas
-1. Cretae a branch:
+0. Start from the master branch version
 ```bash
-git co -b beta/N.M.O
+git co master
+git pull
+grep __version__ src/click/plus/__init__.py | python -c 'ask=input(); print(ask.split("\"")[1])'
+0.0.2
 ```
 
-2. Verify src/click/plus/__init__.py has __version__ set to N.M.O
+1. update the src/click/plus/__init__.py
+```python
+__version__ = 0.0.3
+```
+```bash
+git commit -m "release 0.0.3" src/click/plus/__init__.py
+```
+
+2. Cretate the new branch:
+```bash
+git co -b beta/0.0.3
+git merge branch
+git push origin beta/0.0.3
+```
+
+Or you can use maintaner/release.py
 
 #### Prod
 1. tag 
