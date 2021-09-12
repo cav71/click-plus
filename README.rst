@@ -11,29 +11,42 @@ This package helps creating re-usable flags for click scripts.
     :target: https://pypi.org/project/click-plus
     :alt: Python versions
 
-.. image:: https://github.com/pytest-dev/pytest-subtests/workflows/build/badge.svg
-    :target: https://github.com/pytest-dev/pytest-subtests/actions
+.. image:: https://github.com/pytest-dev/click-plus/workflows/build/badge.svg
+    :target: https://github.com/cav71/click-plus/actions
     :alt: Build
 
 Features
 --------
+The flags (defined elsewhere) can be used as::
 
-[![PyPI version](https://badge.fury.io/py/click-plus.svg)](https://badge.fury.io/py/click-plus)
-![Build](https://github.com/github/docs/actions/workflows/main.yml/badge.svg)
+    import click
+    import click.plus
 
-### Introduction
+    @click.command()
+    .. normal click options/arguments
+    @click.plus.configure(["boost"])
+    def main():
+        ...
 
-Example:
-```python
+There's a commented example with a `main`_ script and the arguments
+group `args`_.
 
-import click
-import click.plus
 
-@click.command()
-.. normal click options/arguments
-@click.plus.configure(["my-custon-set"])
-def main():
-    ...
-```
+Requirements
+------------
 
-For a full example [here..](README.EXTENSION.MD)
+* ``Python`` >= 3.5.
+* ``click``
+
+Installation
+------------
+
+You can install ``click-plus`` via `pip`_ from `PyPI`_::
+
+    $ pip install click-plus
+
+
+.. _`pip`: https://pypi.org/project/pip/
+.. _`PyPI`: https://pypi.org/project
+.. _`main`: https://raw.githubusercontent.com/cav71/click-plus/master/tests/examples/example.py
+.. _`args`: https://raw.githubusercontent.com/cav71/click-plus/master/tests/examples/boost.py
