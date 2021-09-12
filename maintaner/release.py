@@ -11,33 +11,6 @@ import pygit2
 log = logging.getLogger(__name__)
 
 
-class Pcl:
-    ENC = "utf-8"
-
-    def __getattr__(self, name):
-        fn = getattr(porcelain, name)
-
-        @functools.wraps(fn)
-        def _fn(*args, **kwargs):
-            ret = fn(*args, **kwargs)
-            if isinstance(ret, bytes):
-                return str(ret, encoding=self.ENC)
-            elif isinstance(ret, (list, tuple, set)) and all(
-                isinstance(t, bytes) for t in ret
-            ):
-                return type(ret)([str(r, encoding=self.ENC) for r in ret])
-            return ret
-
-        return _fn
-
-    def branches_remote(self, repo, origin):
-        branches = set()
-        with porcelain.open_repo_closing(repo) as r:
-            for item in r.refs.keys(base=f"refs/remotes/{origin}".encode("utf-8")):
-                branches.add(str(item, encoding=self.ENC))
-        return branches
-
-
 def handle_version(initfile, version=None):
     expr = re.compile(r"__version__\s*=\s*['\"](?P<version>[^\"']+)['\"]")
     lines = []
@@ -144,15 +117,23 @@ def main(mode, initfile, workdir, force, dryrun):
 
     msg = f"beta release {newver}"
     log.info("committing '%s'%s", msg, " (skip)" if dryrun else "")
-    # if not dryrun:
-    #    pcl.commit(repo, msg)
+    if not dryrun:
+        refname = repo.head.name
+        author = repo.default_signature
+        commiter = repo.default_signature
+        parent = repo.revparse_single(repo.head.shorthand).hex
+        repo.index.add(initfile)
+        repo.index.write()
+        tree = repo.index.write_tree()
+        oid = repo.create_commit(refname, author, commiter, msg, tree, [parent])
+        log.info("created oid %s", oid)
 
-    # create and co new branch
     log.info("switching to new branch '%s'%s", branch, " (skip)" if dryrun else "")
-    # if not dryrun:
-    #    pcl.update_head(repo, branch, new_branch=branch)
-    # merge form mastenewverr
-    # push remote
+    if not dryrun:
+        commit = repo.revparse_single(repo.head.shorthand)
+        repo.branches.local.create(branch, commit)
+        ref = repo.lookup_reference(repo.lookup_branch(branch).name)
+        repo.checkout(ref)
 
 
 if __name__ == "__main__":
