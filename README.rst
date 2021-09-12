@@ -15,6 +15,9 @@ This package helps creating re-usable flags for click scripts.
    :target: https://github.com/cav71/click-plus/actions
    :alt: Build
 
+.. image:: https://img.shields.io/badge/code%20style-black-000000.svg
+   :target: https://github.com/psf/black
+   :alt: Black
 
 
 Features
