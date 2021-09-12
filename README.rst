@@ -4,16 +4,18 @@ click-plus
 This package helps creating re-usable flags for click scripts.
 
 .. image:: https://img.shields.io/pypi/v/click-plus.svg
-    :target: https://pypi.org/project/click-plus
-    :alt: PyPI version
+   :target: https://pypi.org/project/click-plus
+   :alt: PyPI version
 
 .. image:: https://img.shields.io/pypi/pyversions/click-plus.svg
-    :target: https://pypi.org/project/click-plus
-    :alt: Python versions
+   :target: https://pypi.org/project/click-plus
+   :alt: Python versions
 
-.. image:: https://github.com/pytest-dev/click-plus/workflows/build/badge.svg
-    :target: https://github.com/cav71/click-plus/actions
-    :alt: Build
+.. image:: https://github.com/cav71/click-plus/actions/workflows/master.yml/badge.svg
+   :target: https://github.com/cav71/click-plus/actions
+   :alt: Build
+
+
 
 Features
 --------
