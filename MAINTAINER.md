@@ -1,6 +1,13 @@
 ### Release
 
 #### Betas
+You can use maintaner/release.py:
+```
+./maintaner/release.py micro src/click/plus/__init__.py
+git push origin beta/0.0.3
+```
+Or following the instructions.
+
 0. Start from the master branch version
 ```bash
 git co master
@@ -24,7 +31,6 @@ git merge branch
 git push origin beta/0.0.3
 ```
 
-Or you can use maintaner/release.py
 
 #### Prod
 1. tag 
