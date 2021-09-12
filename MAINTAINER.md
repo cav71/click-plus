@@ -11,7 +11,7 @@ git co -b beta/N.M.O
 #### Prod
 1. tag 
 ```bash
-git tag 
+git tag -m release release/N.M.O
 ```
 
 ### Testing
