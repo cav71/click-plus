@@ -1,4 +1,21 @@
+### Release
+
+#### Betas
+1. Cretae a branch:
+```bash
+git co -b beta/N.M.O
+```
+
+2. Verify src/click/plus/__init__.py has __version__ set to N.M.O
+
+#### Prod
+1. tag 
+```bash
+git tag 
+```
+
 ### Testing
+
 
 #### Cloning
 ```shell
