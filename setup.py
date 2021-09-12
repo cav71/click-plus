@@ -93,7 +93,6 @@ setup(
     package_dir={"click.plus": "src/click/plus"},
     description="collection of click extensions",
     long_description=pathlib.Path("README.rst").read_text(),
-    long_description_content_type="text/x-rst",
     install_requires=["click"],
     classifiers=[
         "Development Status :: 4 - Beta",
