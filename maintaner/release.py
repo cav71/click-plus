@@ -1,11 +1,9 @@
 #!/usr/bin/env python
 import pathlib
-import functools
 import logging
 import re
 
 import click
-from dulwich import porcelain
 import pygit2
 
 log = logging.getLogger(__name__)
