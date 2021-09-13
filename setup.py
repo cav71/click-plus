@@ -12,43 +12,27 @@ import click.plus  # noqa: E402
 
 
 def hubversion(gdata, fallback):
-    """returns (version, shasum)
-    >>> hubversion({
-        'ref': 'refs/heads/beta/0.0.4',
-        'sha': '2169f90c22e',
-        'run_number': '8',
-    }, None)
-    ('0.0.4b8', '2169f90c22e')
-    >>> hubversion({
-        'ref': 'refs/tags/release/0.0.3',
-        'sha': '5547365c82',
-        'run_number': '3',
-    }, None)
-    ('0.0.3', '5547365c82')
-    >>> hubversion({
-        'ref': 'refs/heads/master',
-        'sha': '2169f90c',
-        'run_number': '20',
-    }, '123'))
-    ('123', '2169f90c')"""
-    txt = gdata["ref"]
-    number = gdata["run_number"]
-    shasum = gdata["sha"]
-    head, _, rest = txt.partition("/")
+    "extracts a (version, shasum) from a GITHUB_DUMP variable"
 
-    cases = [
-        (
-            "refs/heads/master",
-            fallback,
-        ),
-        ("refs/heads/beta/", f"b{number}"),
-        ("refs/tags/release/", ""),
-    ]
-    for pat, out in cases:
-        if not txt.startswith(pat):
-            continue
-        return txt[len(pat) :] + out, shasum
-    raise RuntimeError("unhandled github ref", txt)
+    def getversion(txt):
+        return ".".join(str(int(v)) for v in txt.split("."))
+
+    ref = gdata["ref"]  # eg. "refs/tags/release/0.0.3"
+    number = gdata["run_number"]  # eg. 3
+    shasum = gdata["sha"]  # eg. "2169f90c"
+
+    if ref == "refs/heads/master":
+        return (fallback, shasum)
+
+    if ref.startswith("refs/heads/beta/"):
+        version = getversion(ref.rpartition("/")[2])
+        return (f"{version}b{number}", shasum)
+
+    if ref.startswith("refs/tags/release/"):
+        version = getversion(ref.rpartition("/")[2])
+        return (f"{version}", shasum)
+
+    raise RuntimeError("unhandled github ref", gdata)
 
 
 def update_version(data, path, fallback):
