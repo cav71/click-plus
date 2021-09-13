@@ -6,5 +6,6 @@ mock
 mypy
 pre-commit
 pytest
-pytest-cov
 pytest-html
+pytest-cov
+
