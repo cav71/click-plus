@@ -6,9 +6,7 @@ from setuptools import setup, find_namespace_packages
 
 from setuptools.github import tools
 
-initfile = pathlib.Path(__file__).parent / "src/mono2repo.py"
-
-
+initfile = pathlib.Path(__file__).parent / "src/click/plus/__init__.py"
 version = tools.update_version(initfile, os.getenv("GITHUB_DUMP"))
 
 packages = find_namespace_packages(where="src")
