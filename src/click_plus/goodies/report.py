@@ -2,7 +2,7 @@ import os
 import sys
 import logging
 
-from click.plus.api import ExtensionBase
+from click_plus.api import ExtensionBase
 
 
 logger = logging.getLogger(__name__)
@@ -18,7 +18,7 @@ class Report(ExtensionBase):
         from functools import wraps
         from click.decorators import pass_context  # this workaround is needed
 
-        # only when developing click.plus
+        # only when developing click_plus
 
         self.log = log = arguments.get(f"{self.NAME}.log", {}).get("log", logger)
 
@@ -72,11 +72,11 @@ class Report(ExtensionBase):
 
 def example():
     # this is a workaround needed
-    # only when developing click.plus
+    # only when developing click_plus
     from click.decorators import command, argument
     from click.types import Choice
 
-    from click.plus import configure
+    from click_plus import configure
 
     @command()
     @argument(
