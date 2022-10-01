@@ -11,6 +11,7 @@ def testme(modvar):
         -> so the environ variable stores "World"
     -> here HELLO is deleted (if didn't exist)
 """
+from __future__ import annotations
 from typing import Dict, Any
 
 import pytest
@@ -24,7 +25,7 @@ class VarManager:
         self.source = source
         self.mods = {}
         self.mods.update(kwars)
-        self.values : dict[Any, Any] = {}
+        self.values: dict[Any, Any] = {}
 
     def __enter__(self):
         for name, value in self.mods.items():
@@ -48,6 +49,7 @@ class VarManager:
             self.values[name] = self.NA
             return self.NA
         return self.set(name, self.NA)
+
 
 @pytest.fixture(scope="function")
 def modvar():
