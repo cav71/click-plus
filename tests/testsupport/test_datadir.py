@@ -35,5 +35,5 @@ def test_datadir_with_datadir(fixer, datadir, testdir):
 
 def test_datadir_with_absolute_datadir(absolute_fixer, datadir, testdir):
     assert all(isinstance(d, Path) for d in (datadir, testdir))
-    assert datadir == Path("/abc/def")
-    assert testdir == Path("/abc/def/testsupport/test_datadir")
+    assert datadir == Path(datadir.drive, "/abc/def")
+    assert testdir == Path(datadir.drive, "/abc/def/testsupport/test_datadir")
