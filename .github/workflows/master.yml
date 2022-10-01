@@ -56,7 +56,7 @@ jobs:
               --cov=click.plus \
               --cov-report=html:$OUTDIR/coverage \
               --junitxml=$OUTDIR/junit/junit.xml --html=$OUTDIR/junit/junit.html --self-contained-html \
-            tests
+            tests/testsupport
 
       - name: Static check
         shell: bash
