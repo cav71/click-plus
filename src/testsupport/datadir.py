@@ -4,13 +4,8 @@ from typing import Optional
 import pytest
 
 
-class MyPath(Path):
-    def makedirs(self):
-        return self.mkdir(parents=True, exist_ok=True)
-
-
-def npath(path: Optional[Path]=None) -> MyPath:
-    return MyPath(os.path.normpath(Path(path or Path.cwd()).expanduser()))
+def npath(path: Optional[Path]=None) -> Path:
+    return Path(os.path.normpath(Path(path or Path.cwd()).expanduser()))
 
 
 @pytest.fixture(scope="function")
