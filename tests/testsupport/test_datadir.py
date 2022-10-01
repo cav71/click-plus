@@ -7,13 +7,13 @@ PROJECTDIR = Path(__file__).parent.parent.parent
 
 @pytest.fixture(scope="function")
 def fixer(modvar):
-    with modvar(globals(), {"DATADIR": "abc"}) as mod:
+    with modvar(globals(), DATADIR="abc") as mod:
         yield mod
 
 
 @pytest.fixture(scope="function")
 def absolute_fixer(modvar):
-    with modvar(globals(), {"DATADIR": "/abc/def"}) as mod:
+    with modvar(globals(), DATADIR="/abc/def") as mod:
         yield mod
 
 

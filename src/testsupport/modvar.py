@@ -20,9 +20,9 @@ class VarManager:
     class NA:  # pylint: disable=too-few-public-methods
         pass
 
-    def __init__(self, source: Dict[str, Any], val=None, /, **kwars):
+    def __init__(self, source: Dict[str, Any], **kwars):
         self.source = source
-        self.mods = dict(val or {})
+        self.mods = {}
         self.mods.update(kwars)
         self.values : dict[Any, Any] = {}
 

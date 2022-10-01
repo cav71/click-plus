@@ -14,7 +14,7 @@ def test_modvar(modvar):
         # NEWVAR doesn't exist
         NEWVAR  # pylint: disable=undefined-variable,pointless-statement
 
-    with modvar(globals(), {"MYVAR": 123}) as mod:
+    with modvar(globals(), MYVAR=123) as mod:
         assert MYVAR == 123
         # injecting NEWVAR into the global namespace
         mod.set("NEWVAR", [4, 5, 6])
