@@ -53,7 +53,7 @@ jobs:
           OUTDIR: build/qa-${{ matrix.python-version }}
         run: |
           py.test \
-              --cov=click.plus \
+              --cov=click_plus \
               --cov-report=html:$OUTDIR/coverage \
               --junitxml=$OUTDIR/junit/junit.xml --html=$OUTDIR/junit/junit.html --self-contained-html \
             tests/testsupport
