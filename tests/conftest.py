@@ -1,6 +1,6 @@
 import pytest
 
-pytest_plugins = ["testsupport.datadir", "testsupport.modvar", "testsupport.scripter"]
+pytest_plugins = ["testsupport.datadir", "testsupport.modvar", ] #  "testsupport.scripter"]
 
 
 def pytest_configure(config):
